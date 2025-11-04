@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Edusmart Enrollment Dashboard </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    min-height: 100vh;
+    background: url('/images/studentenrollment.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    min-width: 220px;
+    max-width: 220px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -220px;
+    background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f, #f399bf);
+    color: white;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    z-index: 1050;
+}
+
+.sidebar.show {
+    left: 0;
+}
+
+@media ( min-width : 768px) {
+    .sidebar {
+        left: 0;
+    }
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar button {
+    width: 100%;
+    text-align: left;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 0;
+    padding: 30px;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+@media ( min-width : 768px) {
+    .main-content {
+        margin-left: 240px;
+    }
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background: #8b1e3f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+@media ( min-width : 768px) {
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+/* Card and Table Styling */
+.card-light-bg {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-light-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.table thead {
+    background-color: #8b1e3f;
+    color: white;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(139,30,63,0.1);
+}
+</style>
+</head>
+<body>
+<!-- Sidebar Toggle -->
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<!-- Sidebar -->
+<div class="sidebar d-flex flex-column">
+    <h2> 🎓 Admin Menu </h2>
+    <a th:href="@{/dashboard}" class="text-white"> Dashboard </a>
+    <a th:href="@{/dashboard/enrollments}" class="text-white active"> 📚 Enrollments </a>
+    <a th:href="@{/dashboard/students}" class="text-white"> 👩‍🎓 Students </a>
+    <a th:href="@{/dashboard/quizzes}" class="text-white"> 📝 Quizzes </a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light"> Logout </button>
+    </form>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container-fluid">
+        <h1 class="mb-4"> 📚 Enrollment List </h1>
+
+        <div class="row g-4 mt-3">
+            <div class="col-12">
+                <div class="card p-3 card-light-bg table-responsive">
+                    <table class="table table-striped align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Student ID</th>
+                                <th>Quiz ID</th>
+                                <th>Enrolled At</th>
+                                <th>Completed</th>
+                                <th>Score</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="enrollment, iterStat : ${enrollments}">
+                                <td th:text="${iterStat.count}">1</td>
+                                <td th:text="${enrollment.studentId}">101</td>
+                                <td th:text="${enrollment.quizId}">202</td>
+                                <td th:text="${#dates.format(enrollment.enrolledAt, 'yyyy-MM-dd HH:mm')}">2025-10-15 10:00</td>
+                                <td th:text="${enrollment.completed} ? 'Yes' : 'No'">No</td>
+                                <td th:text="${enrollment.score != null} ? ${enrollment.score} : '-'">-</td>
+                                <td>
+                                    <form th:action="@{/dashboard/enrollments/complete}" method="post" th:if="${!enrollment.completed}" class="d-flex flex-column gap-1">
+                                        <input type="hidden" name="studentId" th:value="${enrollment.studentId}" />
+                                        <input type="hidden" name="quizId" th:value="${enrollment.quizId}" />
+                                        <input type="number" step="0.01" name="score" placeholder="Score" class="form-control form-control-sm" required />
+                                        <button type="submit" class="btn btn-success btn-sm">Mark Completed</button>
+                                    </form>
+                                    <span th:if="${enrollment.completed}">Completed</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(enrollments)}">
+                                <td colspan="7" class="text-center">No enrollments found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div class="text-center mt-4">
+            <a th:href="@{/dashboard}" class="btn btn-outline-primary">⬅ Back to Dashboard</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

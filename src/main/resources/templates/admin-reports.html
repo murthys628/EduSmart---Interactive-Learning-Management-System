@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Admin Reports | Edusmart Admin </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+	min-height: 100vh;
+	/* Using a generic admin dashboard background */
+	background: url('/images/admin-reports.jpg') no-repeat center center fixed; 
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #053715, #2f5918, #627b14, #a19b09,
+		#ebb612);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show {
+	left: 0;
+}
+
+@media ( min-width : 768px) {
+	.sidebar {
+		left: 0;
+	}
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar button {
+	width: 100%;
+	text-align: left;
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.85);
+}
+
+@media ( min-width : 768px) {
+	.main-content {
+		margin-left: 240px;
+	}
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #053715;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media ( min-width : 768px) {
+	.sidebar-toggle {
+		display: none;
+	}
+}
+
+/* Report Card Styling */
+.report-card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #a19b09; /* Highlight color */
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+/* Table styling */
+.table th, .table td {
+	vertical-align: middle;
+}
+
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-primary-bg {
+    background-color: rgba(240, 240, 240, 0.9);
+}
+</style>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2> ⚙️ Admin Menu </h2>
+    <a th:href="@{/admin/dashboard}" class="text-white"> Dashboard </a>
+    <a th:href="@{/admin/users}" class="text-white"> 👥 Manage Users </a> 
+    <a th:href="@{/admin/courses}" class="text-white"> 📚 Manage Courses </a> 
+    <a th:href="@{/admin/reports}" class="text-white active"> 📊 Reports </a> 
+    <a th:href="@{/admin/profile}" class="text-white"> 👤 Profile </a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light"> Logout </button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <h1 class="mb-4"> 📊 System Reports </h1>
+        <p class="lead">Overview of key system metrics and statistics.</p>
+
+        <div class="row g-4 mt-3">
+            
+            <div class="col-md-4">
+                <div class="report-card text-center">
+                    <h5 class="card-title text-success"> Total Users </h5>
+                    <p class="display-5" th:text="${totalUsers}"> 0 </p>
+                    <p class="text-muted mb-0"> Students, Teachers & Admin </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="report-card text-center">
+                    <h5 class="card-title text-info"> Total Courses </h5>
+                    <p class="display-5" th:text="${totalCourses}"> 0 </p>
+                    <p class="text-muted mb-0"> Across all teachers </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="report-card text-center">
+                    <h5 class="card-title text-warning"> Active Teachers </h5>
+                    <p class="display-5" th:text="${activeTeachers}"> 0 </p>
+                    <p class="text-muted mb-0"> Total Teachers registered </p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-5 mb-3"> Top 5 Enrolled Courses </h2>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-primary-bg">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Rank</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Teacher ID</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="course, status : ${topCourses}">
+                        <td th:text="${status.count}">1</td>
+                        <td th:text="${course.title}">Advanced Java</td>
+                        <td th:text="${course.description}">Deep dive into Spring Boot and APIs.</td>
+                        <td th:text="${course.teacherId}">2</td> 
+                    </tr>
+                    
+                    <tr th:if="${topCourses == null || topCourses.isEmpty()}">
+                        <td colspan="4" class="text-center text-muted">No course enrollment data available.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a th:href="@{/admin/dashboard}" class="btn btn-primary btn-lg">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Sidebar toggle script
+document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('show');
+});
+</script>
+</body>
+</html>

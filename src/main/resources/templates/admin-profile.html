@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Admin Profile | Edusmart Admin </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/admin-profile.jpg') no-repeat center center fixed; 
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #053715, #2f5918, #627b14, #a19b09,
+		#ebb612);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show {
+	left: 0;
+}
+
+@media ( min-width : 768px) {
+	.sidebar {
+		left: 0;
+	}
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+/* Set Profile link as active */
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar button {
+	width: 100%;
+	text-align: left;
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.85);
+}
+
+@media ( min-width : 768px) {
+	.main-content {
+		margin-left: 240px;
+	}
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #053715;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media ( min-width : 768px) {
+	.sidebar-toggle {
+		display: none;
+	}
+}
+
+/* Custom Profile Card Styling */
+.profile-card { 
+    max-width: 600px; 
+    margin: 30px auto; 
+    padding: 30px; 
+    border-radius: 10px; 
+    background: rgba(255, 255, 255, 0.95); 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
+    border-top: 5px solid #a19b09; /* Highlight color */
+}
+</style>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2> ⚙️ Admin Menu </h2>
+    <a th:href="@{/admin/dashboard}" class="text-white"> Dashboard </a>
+    <a th:href="@{/admin/users}" class="text-white"> 👥 Manage Users </a> 
+    <a th:href="@{/admin/courses}" class="text-white"> 📚 Manage Courses </a> 
+    <a th:href="@{/admin/reports}" class="text-white"> 📊 Reports </a>
+    <a th:href="@{/admin/profile}" class="text-white active"> 👤 Profile </a> <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light"> Logout </button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        
+        <h1 class="mb-4 text-center"> 👤 Admin Profile </h1>
+
+        <div class="profile-card">
+            
+            <div th:if="${message}" th:classappend="${success} ? 'alert-success' : 'alert-danger'" class="alert text-center">
+                <span th:text="${message}">Profile message goes here.</span>
+            </div>
+
+            <form th:action="@{/admin/profile/update}" th:object="${user}" method="post">
+                
+                <input type="hidden" th:field="*{id}">
+                
+                <div class="mb-3">
+                    <label for="role" class="form-label fw-bold">User Role</label>
+                    <input type="text" id="role" class="form-control" th:field="*{role}" readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-bold">Username</label>
+                    <input type="text" id="username" class="form-control" th:field="*{username}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">Name</label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">Email</label>
+                    <input type="email" id="email" class="form-control" th:field="*{email}" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-bold text-danger">New Password</label>
+                    <input type="password" id="password" class="form-control" th:field="*{password}" 
+                           placeholder="Leave blank to keep current password">
+                    <div class="form-text">Your password will only be updated if a value is entered here.</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning btn-lg">💾 Update Profile</button>
+                    
+                    <a th:href="@{/admin/dashboard}" class="btn btn-primary btn-lg">← Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Sidebar toggle script
+document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('show');
+});
+</script>
+</body>
+</html>

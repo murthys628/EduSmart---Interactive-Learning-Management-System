@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Edu Smart Assignments </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 30px 15px;
+    background: url('/images/teacher-assignment.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* Card styling */
+.card-light-bg {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow-x: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-light-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Inputs and buttons */
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.message {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+a.btn-back {
+    background: #2196F3;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+}
+
+a.btn-back:hover {
+    background: #0b7dda;
+}
+
+/* Table styling */
+.table thead th {
+    background-color: rgba(0,0,0,0.1);
+    color: #000;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,0.03);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.8rem;
+    }
+    .card-light-bg {
+        padding: 15px;
+    }
+    input, select, button {
+        font-size: 0.95rem;
+        padding: 8px;
+    }
+}
+
+/* Stack table rows on very small screens */
+@media (max-width: 576px) {
+    table thead {
+        display: none;
+    }
+
+    table, table tbody, table tr, table td {
+        display: block;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-left: 5px;
+        font-weight: bold;
+        text-align: left;
+        color: #333;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+    button, .btn-back {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h2 class="mb-4 text-center text-white">My Assignments</h2>
+
+    <p th:if="${message}" th:text="${message}" class="message"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <div class="card-light-bg">
+        <h5 class="mb-3">Add New Assignment</h5>
+        <form th:action="@{/teacher/assignments/add}" th:object="${assignment}" method="post">
+            <input type="text" th:field="*{title}" placeholder="Assignment Title" required />
+            <input type="text" th:field="*{description}" placeholder="Description" required />
+
+            <select th:field="*{courseId}" required>
+                <option value="" disabled selected>Select Course</option>
+                <option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.title}"></option>
+            </select>
+
+            <button type="submit" class="mt-2">Add Assignment</button>
+        </form>
+    </div>
+
+    <div class="card-light-bg">
+        <h5 class="mb-3">Existing Assignments</h5>
+
+        <table class="table table-hover table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    <th>Grade</th>
+                    <th>Feedback</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+				<tbody>
+					<tr th:each="a : ${assignments}">
+						<td data-label="ID" th:text="${a.id}"> 1 </td>
+						<td data-label="Title" th:text="${a.title}"> Sample Title </td>
+						<td data-label="Description" th:text="${a.description}"> Sample Description </td>
+						<td data-label="Course" th:text="${a.courseId}"> Course ID </td>
+						
+						<td data-label="Status" th:text="${a.status}"> PENDING </td>
+						<td data-label="Grade" th:text="${a.grade} ?: 'N/A'"> N/A </td>
+						<td data-label="Feedback" th:text="${a.feedback} ?: 'None'"> None </td>
+						
+						<td data-label="Action">
+							<button th:if="${a.status == 'SUBMITTED'}" 
+									type="button" 
+									class="btn btn-sm btn-success" 
+									th:onclick="|showGradeForm(${a.id}, '${a.title}')|">
+								Grade
+							</button>
+							<span th:if="${a.status == 'APPROVED'}" class="text-success">Graded</span>
+							<span th:if="${a.status == 'PENDING'}">N/A</span>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(assignments)}">
+						<td colspan="8" class="text-center"> No assignments added yet. </td>
+					</tr>
+				</tbody>
+			</table>
+
+        <div class="text-center mt-3">
+            <a th:href="@{/teacher/dashboard}" class="btn-back">⬅ Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="gradeAssignmentModal" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="gradeModalLabel">Grade Assignment: <span id="assignmentTitle"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="gradingForm">
+              <input type="hidden" id="modalAssignmentId" name="assignmentId" value="" />
+              
+              <div class="mb-3">
+                <label for="gradeInput" class="form-label">Final Grade</label>
+                <input type="text" class="form-control" id="gradeInput" name="grade" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="feedbackInput" class="form-label">Feedback</label>
+                <textarea class="form-control" id="feedbackInput" name="feedback" rows="3"></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100 mt-3">Submit Grade</button>
+            </form>
+            <div id="gradeMessage" class="mt-3 text-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    
+    // Function to show the modal and set assignment ID/Title
+    function showGradeForm(assignmentId, assignmentTitle) {
+        document.getElementById('modalAssignmentId').value = assignmentId;
+        document.getElementById('assignmentTitle').textContent = assignmentTitle;
+        document.getElementById('gradeMessage').innerHTML = ''; // Clear previous messages
+        document.getElementById('gradeInput').value = ''; 
+        document.getElementById('feedbackInput').value = '';
+        
+        var gradeModal = new bootstrap.Modal(document.getElementById('gradeAssignmentModal'));
+        gradeModal.show();
+    }
+
+    // Handle form submission via AJAX to the API controller
+    document.getElementById('gradingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const assignmentId = document.getElementById('modalAssignmentId').value;
+        const grade = document.getElementById('gradeInput').value;
+        const feedback = document.getElementById('feedbackInput').value;
+        const messageDiv = document.getElementById('gradeMessage');
+
+        const data = {
+            assignmentId: parseInt(assignmentId),
+            grade: grade,
+            feedback: feedback
+        };
+        
+        messageDiv.innerHTML = '<span class="text-primary">Submitting...</span>';
+
+        fetch(/*[[@{/api/teacher/assignments/grade}]]*/ '/api/teacher/assignments/grade', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Include CSRF token if Spring Security is configured to require it
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            return response.json().then(data => {
+                if (!response.ok) {
+                    // Handle API errors (403, 404, 400)
+                    throw new Error(data.message || data.error || 'Failed to grade assignment.');
+                }
+                return data;
+            });
+        })
+        .then(data => {
+            messageDiv.innerHTML = '<span class="text-success">' + data.message + '</span>';
+            // Wait briefly, then close modal and refresh the table to show the new grade/status
+            setTimeout(function() {
+                var gradeModal = bootstrap.Modal.getInstance(document.getElementById('gradeAssignmentModal'));
+                gradeModal.hide();
+                window.location.reload(); 
+            }, 1000); 
+        })
+        .catch(error => {
+            messageDiv.innerHTML = '<span class="text-danger">Error: ' + error.message + '</span>';
+            console.error('Grading failed:', error);
+        });
+    });
+
+    /*]]>*/
+</script>
+</body>
+</html>

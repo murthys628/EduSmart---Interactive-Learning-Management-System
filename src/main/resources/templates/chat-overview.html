@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'EduSmart | Chat Overview'">EduSmart | Chat Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* (CSS styles remain unchanged) */
+        body {
+            min-height: 100vh;
+            background: url('/images/studentchats.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            min-width: 220px;
+            max-width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -220px;
+            background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f, #f399bf);
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1050;
+        }
+
+        .sidebar.show { left: 0; }
+
+        @media ( min-width : 768px) {
+            .sidebar { left: 0; }
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .sidebar a, .sidebar button {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: none;
+        }
+
+        .sidebar a:hover, .sidebar button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .sidebar button {
+            width: 100%;
+            text-align: left;
+        }
+
+        .main-content {
+            margin-left: 0;
+            padding: 30px;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        @media ( min-width : 768px) {
+            .main-content { margin-left: 240px; }
+        }
+
+        .sidebar-toggle {
+            display: block;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background: #8b1e3f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        @media ( min-width : 768px) {
+            .sidebar-toggle { display: none; }
+        }
+        
+        .course-chat-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-left: 5px solid #8b1e3f;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+        
+        .course-chat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    
+    <h2 th:if="${currentUserRole == 'TEACHER'}">👨‍🏫 Teacher Menu</h2>
+    <h2 th:if="${currentUserRole != 'TEACHER'}">🎓 Student Menu</h2>
+
+    <th:block th:if="${currentUserRole == 'TEACHER'}">
+        <a th:href="@{/teacher/dashboard}" class="text-white">🏠 Dashboard</a>
+        <a th:href="@{/teacher/courses}" class="text-white">📚 My Courses</a>
+        <a th:href="@{/teacher/assignments}" class="text-white">📝 Assignments</a>
+        <a th:href="@{/dashboard/discussions}" class="text-white">💬 Discussions</a>
+        <a th:href="@{/dashboard/chat}" th:classappend="${currentUri.startsWith('/dashboard/chat')} ? 'active' : ''" class="text-white">🗣️ Live Chat</a>
+        <a th:href="@{/teacher/profile}" class="text-white">👤 Profile</a>
+    </th:block>
+
+    <th:block th:if="${currentUserRole != 'TEACHER'}">
+        <a th:href="@{/student/dashboard}" class="text-white">🏠 Dashboard</a>
+        <a th:href="@{/student/courses}" class="text-white">📚 My Courses</a>
+        <a th:href="@{/student/grades}" class="text-white">📊 Grades</a>
+        <a th:href="@{/student/assignments}" class="text-white">📝 Assignments</a>
+        <a th:href="@{/dashboard/discussions}" class="text-white">💬 Discussions</a>
+        <a th:href="@{/dashboard/chat}" th:classappend="${currentUri.startsWith('/dashboard/chat')} ? 'active' : ''" class="text-white">🗣️ Live Chat</a>
+        <a th:href="@{/student/profile}" class="text-white">👤 Profile</a>
+    </th:block>
+
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">Logout</button>
+    </form>
+</div>
+<div class="main-content">
+    <div class="container-fluid">
+        <h1 class="mb-1" th:text="${pageTitle}">Live Chat Overview</h1>
+        <p class="text-muted mb-4">Select a course below to join the live chat room, <span th:text="${currentUsername}">Student</span>.</p>
+
+        <div class="row g-4">
+            
+            <div th:if="${#lists.isEmpty(enrolledCourses)}" class="col-12">
+                <div class="alert alert-info text-center">
+                    <span th:if="${currentUserRole == 'TEACHER'}">You are not currently assigned to any courses with a dedicated chat room.</span>
+                    <span th:if="${currentUserRole != 'TEACHER'}">You are not currently enrolled in any courses with a dedicated chat room.</span>
+                </div>
+            </div>
+            
+            <div th:each="course : ${enrolledCourses}" class="col-lg-6 col-md-12">
+                <div class="card p-4 course-chat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title text-primary" th:text="${course.title}">Course Title Example</h5>
+                            <p class="text-muted mb-0">Instructor: <span th:text="${course.teacherName}">Dr. Smith</span></p>
+                            <small class="text-secondary">Course ID: <span th:text="${course.id}">101</span></small>
+                        </div>
+                        <div>
+                            <a th:href="@{/dashboard/chat(courseId=${course.id})}" class="btn btn-success">
+                                <i class="fas fa-comments"></i> Join Chat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+        document.querySelector('.sidebar').classList.toggle('show');
+    });
+</script>
+</body>
+</html>

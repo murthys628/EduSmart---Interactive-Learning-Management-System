@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>EduSmart - Notifications</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/studentnotification.jpg') no-repeat center center fixed;
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #3a0ca3, #7209b7, #b5179e, #f72585);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show { left: 0; }
+
+@media (min-width:768px) {
+	.sidebar { left: 0; }
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.88);
+}
+
+@media (min-width:768px) {
+	.main-content { margin-left: 240px; }
+}
+
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #3a0ca3;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media (min-width:768px) {
+	.sidebar-toggle { display: none; }
+}
+
+/* Notifications */
+.notification-card {
+	background: rgba(255, 255, 255, 0.8);
+	border-left: 6px solid transparent;
+	border-radius: 10px;
+	margin-bottom: 15px;
+	padding: 15px 20px;
+	box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+	transition: all 0.3s ease;
+}
+
+.notification-card.unread {
+	border-left-color: #007bff;
+	background-color: #e9f3ff;
+}
+
+.notification-card:hover {
+	transform: translateY(-3px);
+}
+
+/* Buttons */
+.btn-mark-read {
+	border-radius: 30px;
+	padding: 6px 15px;
+}
+
+/* Toast Notification Popup */
+.toast-container {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 2000;
+}
+</style>
+</head>
+
+<body>
+<button class="sidebar-toggle"
+	onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<!-- Sidebar -->
+<div class="sidebar d-flex flex-column">
+	<h2 th:text="${#authentication.principal.role == 'TEACHER' ? '👨‍🏫 Teacher Menu' : '🎓 Student Menu'}"></h2>
+
+	<!-- Common link -->
+	<a th:href="@{/dashboard/notifications}" class="text-white active">🔔 Notifications</a>
+
+	<!-- Student links -->
+	<a th:if="${#authentication.principal.role == 'STUDENT'}" th:href="@{/student/dashboard}" class="text-white">🏠 Dashboard</a>
+	<a th:if="${#authentication.principal.role == 'STUDENT'}" th:href="@{/student/courses}" class="text-white">📘 Courses</a>
+	<a th:if="${#authentication.principal.role == 'STUDENT'}" th:href="@{/student/profile}" class="text-white">👤 Profile</a>
+
+	<!-- Teacher links -->
+	<a th:if="${#authentication.principal.role == 'TEACHER'}" th:href="@{/teacher/dashboard}" class="text-white">🏠 Dashboard</a>
+	<a th:if="${#authentication.principal.role == 'TEACHER'}" th:href="@{/teacher/courses}" class="text-white">📚 Manage Courses</a>
+	<a th:if="${#authentication.principal.role == 'TEACHER'}" th:href="@{/teacher/students}" class="text-white">👩‍🎓 Students</a>
+	<a th:if="${#authentication.principal.role == 'TEACHER'}" th:href="@{/teacher/profile}" class="text-white">👤 Profile</a>
+
+	<form th:action="@{/logout}" method="post" class="mt-auto">
+		<button type="submit" class="btn btn-outline-light w-100">Logout</button>
+	</form>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+	<div class="container-fluid">
+		<h1 class="mb-3">📢 My Notifications</h1>
+
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h5>
+				Unread Notifications:
+				<span id="unreadCount" class="badge bg-primary" th:text="${unreadCount}">0</span>
+			</h5>
+			<form th:action="@{/dashboard/notifications/mark-all-read}" method="post">
+				<button type="submit" class="btn btn-outline-success btn-sm">
+					<i class="bi bi-check-all"></i> Mark All as Read
+				</button>
+			</form>
+		</div>
+
+		<div th:if="${#lists.isEmpty(notifications)}" class="alert alert-info">
+			<i class="bi bi-bell-slash"></i> You have no notifications right now.
+		</div>
+
+		<div th:each="notif : ${notifications}"
+			 th:class="'notification-card ' + (${!notif.read} ? 'unread' : '')">
+			<div class="d-flex justify-content-between align-items-center">
+				<div>
+					<p class="mb-1" th:text="${notif.message}">Notification message</p>
+					<small class="text-muted"
+						th:text="${#temporals.format(notif.createdAt, 'dd MMM yyyy, hh:mm a')}"></small>
+				</div>
+				<div>
+					<form th:if="${!notif.read}"
+						  th:action="@{'/dashboard/notifications/mark-read/' + ${notif.id}}"
+						  method="post">
+						<button class="btn btn-sm btn-success btn-mark-read">Mark Read</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="text-center mt-4">
+			<a th:if="${#authentication.principal.role == 'STUDENT'}"
+			   th:href="@{/student/dashboard}" class="btn btn-outline-primary">⬅ Back to Student Dashboard</a>
+
+			<a th:if="${#authentication.principal.role == 'TEACHER'}"
+			   th:href="@{/teacher/dashboard}" class="btn btn-outline-primary">⬅ Back to Teacher Dashboard</a>
+		</div>
+	</div>
+</div>
+
+<!-- Toast container for real-time popups -->
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
+
+<script>
+let stompClient = null;
+
+function connectWebSocket() {
+	const socket = new SockJS(window.location.origin + '/ws');
+	stompClient = Stomp.over(socket);
+
+	stompClient.connect({}, (frame) => {
+		console.log("✅ Connected to WebSocket:", frame);
+
+		stompClient.subscribe('/user/queue/notifications', (message) => {
+			try {
+				const notif = JSON.parse(message.body);
+				showToast(notif.message || "New Notification!");
+				refreshUnreadCount();
+			} catch (e) {
+				console.error("⚠️ Failed to parse notification:", e);
+			}
+		});
+	});
+
+	socket.onclose = () => {
+		console.warn("⚠️ WebSocket disconnected. Reconnecting in 5s...");
+		setTimeout(connectWebSocket, 5000);
+	};
+}
+
+// Show live toast notification
+function showToast(message) {
+	const container = document.getElementById('toastContainer');
+	const toastEl = document.createElement('div');
+	toastEl.className = 'toast align-items-center text-bg-info border-0 fade show';
+	toastEl.role = 'alert';
+	toastEl.innerHTML = `
+		<div class="d-flex">
+			<div class="toast-body fw-bold">
+				🔔 ${message}
+			</div>
+			<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>`;
+	container.appendChild(toastEl);
+	const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+	toast.show();
+	toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+}
+
+// Refresh unread count
+function refreshUnreadCount() {
+	fetch('/dashboard/notifications/unread-count')
+		.then(response => response.text())
+		.then(count => {
+			document.getElementById('unreadCount').textContent = count;
+		})
+		.catch(err => console.error('Error fetching unread count:', err));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	connectWebSocket();
+	setInterval(refreshUnreadCount, 30000);
+});
+</script>
+
+</body>
+</html>

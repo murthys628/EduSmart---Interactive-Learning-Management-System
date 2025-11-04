@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${quiz.title}">Quiz Page</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    background: url('/images/quizPage.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    min-width: 220px;
+    max-width: 220px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -220px;
+    background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f, #f399bf);
+    color: white;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    z-index: 1050;
+}
+.sidebar.show { left: 0; }
+@media (min-width: 768px) { .sidebar { left: 0; } }
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+.sidebar a, .sidebar button {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+}
+.sidebar a:hover, .sidebar button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+.sidebar a.active { background-color: rgba(255, 255, 255, 0.25); }
+.sidebar button { width: 100%; text-align: left; }
+
+.sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background: #8b1e3f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+@media (min-width: 768px) { .sidebar-toggle { display: none; } }
+
+/* Main content */
+.main-content {
+    margin-left: 0;
+    padding: 30px;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.85);
+}
+@media (min-width: 768px) { .main-content { margin-left: 240px; } }
+
+.card-light-bg {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-light-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Timer */
+#timer {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #b91c1c;
+    background: #fff5f5;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 10px;
+    right: 20px;
+    z-index: 1000;
+}
+#timer.warning {
+    color: #fff;
+    background: #ef4444;
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2>🎓 Student Menu</h2>
+    <a th:href="@{/student/dashboard}">🏠 Dashboard</a>
+    <a th:href="@{/student/courses}">📚 My Courses</a>
+    <a th:href="@{/student/grades}">📊 Grades</a>
+    <a th:href="@{/student/profile}">👤 Profile</a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">Logout</button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 th:text="${quiz.title}">Quiz Title</h1>
+            <div id="timer">Loading...</div>
+        </div>
+
+        <p th:text="${quiz.description}">Quiz Description</p>
+        <p>Duration: <span th:text="${quiz.durationMinutes}">30</span> minutes</p>
+
+        <form id="quiz-form">
+            <input type="hidden" name="quizId" th:value="${quiz.id}" />
+            <input type="hidden" name="studentId" th:value="${studentId}" />
+            <input type="hidden" id="currentAttemptId" th:value="${currentAttemptId}" />
+            <input type="hidden" id="quizTotalMarks" th:value="${quiz.totalMarks}" />
+
+            <div class="row g-4 mt-3" th:each="question, iterStat : ${quiz.questions}">
+                <div class="col-12">
+                    <div class="card p-3 card-light-bg">
+                        <p><b>Q<span th:text="${iterStat.count}">1</span>:</b>
+                        <span th:text="${question.questionText}">Question text</span></p>
+
+                        <input type="hidden" name="questionIds[]" th:value="${question.id}" />
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selectedOptions[]" value="A" required />
+                            <label class="form-check-label" th:text="${question.optionA}">Option A</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selectedOptions[]" value="B" required />
+                            <label class="form-check-label" th:text="${question.optionB}">Option B</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selectedOptions[]" value="C" required />
+                            <label class="form-check-label" th:text="${question.optionC}">Option C</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="selectedOptions[]" value="D" required />
+                            <label class="form-check-label" th:text="${question.optionD}">Option D</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" onclick="submitAndCompleteQuiz()" class="btn btn-primary btn-lg">Submit Quiz</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+const CURRENT_ATTEMPT_ID = document.getElementById('currentAttemptId').value;
+const QUIZ_TOTAL_MARKS = document.getElementById('quizTotalMarks').value;
+const timerElement = document.getElementById('timer');
+let totalSeconds = 0;
+
+// Fetch remaining time from backend
+async function fetchRemainingTime() {
+    try {
+        const response = await fetch(`/api/quiz-attempts/${CURRENT_ATTEMPT_ID}/remaining-time`);
+        if (!response.ok) throw new Error("Failed to fetch remaining time");
+        totalSeconds = await response.json();
+        startCountdown();
+    } catch (err) {
+        console.error(err);
+        totalSeconds = /*[[${quiz.durationMinutes}]]*/ 30 * 60; // fallback
+        startCountdown();
+    }
+}
+
+function startCountdown() {
+    const timerInterval = setInterval(async () => {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        timerElement.textContent = `⏱ Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (totalSeconds <= 60) timerElement.classList.add('warning');
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            alert("⏰ Time's up! Submitting your quiz automatically.");
+            await fetch(`/api/quiz-attempts/${CURRENT_ATTEMPT_ID}/expire-if-over`, { method: 'POST' });
+            submitAndCompleteQuiz();
+        }
+        totalSeconds--;
+    }, 1000);
+}
+
+// Fetch time when page loads
+fetchRemainingTime();
+
+/* ✅ FIXED VERSION — matches your QuizSubmissionDTO perfectly */
+function getSubmissionPayload(formData) {
+    const questionIds = formData.getAll('questionIds[]');
+    const selectedOptions = formData.getAll('selectedOptions[]');
+
+    const questionSubmissions = questionIds.map((id, index) => ({
+        questionId: id,
+        answer: selectedOptions[index]   // matches 'answer' field in DTO
+    }));
+
+    return {
+        quizId: formData.get('quizId'),
+        studentId: formData.get('studentId'),
+        questionSubmissions: questionSubmissions
+    };
+}
+
+async function submitAndCompleteQuiz() {
+    const form = document.getElementById('quiz-form');
+    if (!form.reportValidity()) return;
+
+    const formData = new FormData(form);
+    const submissionPayload = getSubmissionPayload(formData);
+
+    try {
+        const response = await fetch('/api/quiz-submissions/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submissionPayload)
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+        const data = await response.json();
+
+        alert(`✅ Quiz submitted successfully! Final Score: ${data.score}`);
+        window.location.href = /*[[@{/student/dashboard}]]*/ '';
+    } catch (error) {
+        console.error(error);
+        alert('❌ Error submitting quiz. Please try again.');
+    }
+}
+</script>
+</body>
+</html>

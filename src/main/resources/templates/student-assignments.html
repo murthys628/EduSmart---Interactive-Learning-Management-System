@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> EduSmart | My Assignments </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    background: url('/images/student_assignment.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    min-width: 220px;
+    max-width: 220px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -220px;
+    background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f, #f399bf);
+    color: white;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    z-index: 1050;
+}
+
+.sidebar.show { left: 0; }
+
+@media (min-width: 768px) {
+    .sidebar { left: 0; }
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar button { width: 100%; text-align: left; }
+
+/* Main content */
+.main-content {
+    margin-left: 0;
+    padding: 30px;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+@media (min-width: 768px) {
+    .main-content { margin-left: 240px; }
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background: #8b1e3f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+    .sidebar-toggle { display: none; }
+}
+
+/* Cards */
+.card-light-bg {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-light-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+}
+</style>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2>🎓 Student Menu</h2>
+    <a th:href="@{/student/dashboard}" class="text-white">🏠 Dashboard</a>
+    <a th:href="@{/student/courses}" class="text-white">📚 My Courses</a>
+    <a th:href="@{/student/grades}" class="text-white">📊 Grades</a>
+    <a th:href="@{/student/assignments}" class="text-white active">📝 Assignments</a>
+    <a th:href="@{/student/profile}" class="text-white">👤 Profile</a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">Logout</button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <h1 class="mb-4">📝 My Assignments</h1>
+        <p>Welcome, <span th:text="${studentName}">Student</span></p>
+
+        <div th:if="${successMessage}" class="toast-container">
+            <div class="toast align-items-center text-bg-success border-0 show">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <span th:text="${successMessage}">Assignment marked as submitted!</span>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-3">
+            <div class="col-12">
+                <div class="table-responsive card p-3 card-light-bg">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Teacher</th>
+                                <th>Status</th>
+                                <th>Grade</th>
+                                <th>Feedback</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="assignment, iterStat : ${assignments}">
+                                <td th:text="${iterStat.count}">1</td>
+                                <td th:text="${assignment.title}">Assignment Title</td>
+                                <td th:text="${assignment.description}">Description</td>
+                                <td th:text="${assignment.teacherName}">Teacher Name</td>
+                                <td>
+                                    <span th:text="${assignment.status}" 
+                                          th:classappend="${assignment.status == 'SUBMITTED' || assignment.status == 'APPROVED'} ? 'badge bg-success' : 'badge bg-warning text-dark'">
+                                        Pending
+                                    </span>
+                                </td>
+                                
+                                <td th:text="${assignment.grade} ?: 'N/A'">N/A</td> 
+                                <td th:text="${assignment.feedback} ?: 'None'">None</td>
+                                
+                                <td>
+                                    <form th:action="@{'/student/assignments/' + ${assignment.id} + '/complete'}" method="post">
+                                        <button type="submit" 
+                                                class="btn btn-sm btn-outline-success"
+                                                th:disabled="${assignment.status == 'SUBMITTED' || assignment.status == 'APPROVED'}">
+                                            ✅ Mark as Complete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(assignments)}">
+                                <td colspan="8" class="text-center">No assignments found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/student/dashboard}" class="btn btn-outline-primary">
+                ⬅ Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toastEl = document.querySelector('.toast');
+        if (toastEl) {
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+        }
+    });
+</script>
+</body>
+</html>

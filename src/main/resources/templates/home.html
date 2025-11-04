@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Edusmart Home </title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background: url('/images/home.jpg') no-repeat center center fixed;
+	background-size: cover;
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	color: #fff;
+	text-shadow: 1px 1px 3px #000;
+}
+
+h1 {
+	font-size: 3em;
+	margin-bottom: 20px;
+}
+
+.buttons {
+	margin-top: 20px;
+}
+
+.buttons a {
+	text-decoration: none;
+	color: #fff;
+	background: #4CAF50;
+	padding: 12px 25px;
+	border-radius: 8px;
+	margin: 0 10px;
+	font-weight: bold;
+	transition: 0.3s;
+}
+
+.buttons a:hover {
+	background: #45a049;
+}
+</style>
+</head>
+<body>
+<h1> Welcome to EduSmart </h1>
+    <p> Manage your courses, students, and teachers efficiently! </p>
+
+    <div class="buttons">
+        <a th:href="@{/users/login}"> Login </a>
+        <a th:href="@{/users/signup}"> Sign Up </a>
+    </div>
+</body>
+</html>

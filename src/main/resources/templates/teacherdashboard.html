@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edusmart Teacher Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/teacher-dashboard.jpg') no-repeat center center
+		fixed;
+	background-size: cover;
+	font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 230px;
+	max-width: 230px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -230px;
+	background: linear-gradient(145deg, #1976d2, #2196f3, #64b5f6);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.show {
+	left: 0;
+}
+
+@media ( min-width : 768px) {
+	.sidebar {
+		left: 0;
+	}
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: 700;
+	font-size: 1.4rem;
+	letter-spacing: 0.5px;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 22px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 8px;
+	border-radius: 10px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+	transform: translateX(5px);
+}
+
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar button {
+	width: 100%;
+	text-align: left;
+}
+
+/* Toggle Button */
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #1976d2;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 6px;
+	font-weight: 600;
+	transition: background 0.3s;
+}
+
+.sidebar-toggle:hover {
+	background: #0d47a1;
+}
+
+@media ( min-width : 768px) {
+	.sidebar-toggle {
+		display: none;
+	}
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	padding-bottom: 60px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.9);
+	backdrop-filter: blur(4px);
+}
+
+@media ( min-width : 768px) {
+	.main-content {
+		margin-left: 250px;
+	}
+}
+
+/* Cards */
+.card-light-bg {
+	background: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-light-bg:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 220px);
+    background: rgba(255, 255, 255, 0.9);
+    border-top: 2px solid #a19b09;
+    color: #053715;
+    text-align: center;
+    padding: 6px 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+footer strong {
+    color: #2f5918;
+}
+
+@media (max-width: 768px) {
+    footer {
+        width: 100%;
+        font-size: 0.85rem;
+    }
+}
+
+</style>
+</head>
+<body>
+<!-- Sidebar Toggle -->
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<!-- Sidebar -->
+<div class="sidebar d-flex flex-column">
+    <h2>👩‍🏫 Teacher Menu</h2>
+    <a th:href="@{/teacher/dashboard}" class="text-white">🏠 Dashboard</a>
+    <a th:href="@{/teacher/courses}" class="text-white">📚 My Courses</a>
+    <a th:href="@{/teacher/students}" class="text-white">👥 Students</a>
+    <a th:href="@{/teacher/assignments}" class="text-white">📝 Assignments</a>
+    <a th:href="@{/teacher/grades}" class="text-white">🎯 Grades</a>
+    <a th:href="@{/teacher/quizzes}" class="text-white">📝 Quiz</a>
+    <a th:href="@{/dashboard/discussions}" class="text-white">💬 Discussions</a>
+    <a th:href="@{/dashboard/chat}" class="text-white">🗣️ Live Chat</a>
+    <a th:href="@{/teacher/profile}" class="text-white">👤 Profile</a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">🚪 Logout</button>
+    </form>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container-fluid">
+        <h1 class="mb-4 fw-bold text-primary">📊 Teacher Dashboard</h1>
+        <p>Welcome back, <span th:text="${teacherName}" class="fw-semibold text-dark">Teacher</span> 👋</p>
+
+        <div class="row g-4 mt-4">
+            <!-- Courses Card -->
+            <div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title text-primary">Courses</h5>
+                    <p class="display-6 fw-bold" th:text="${courseCount}">0</p>
+                    <a th:href="@{/teacher/courses}" class="btn btn-sm btn-outline-primary">Manage Courses</a>
+                </div>
+            </div>
+
+            <!-- Students Card -->
+            <div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title text-success">Students</h5>
+                    <p class="display-6 fw-bold" th:text="${studentCount}">0</p>
+                    <a th:href="@{/teacher/students}" class="btn btn-sm btn-outline-success">View Students</a>
+                </div>
+            </div>
+
+            <!-- Assignments Card -->
+            <div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title text-warning">Assignments</h5>
+                    <p class="display-6 fw-bold" th:text="${assignmentCount}">0</p>
+                    <a th:href="@{/teacher/assignments}" class="btn btn-sm btn-outline-warning">Manage Assignments</a>
+                </div>
+            </div>
+
+            <!-- Grades Card -->
+				<div class="col-md-4">
+					<div class="card p-3 text-center card-light-bg">
+						<h5 class="card-title" style="color: #007bff;">Grades</h5>
+						<p class="display-6" th:text="${gradesCount}"
+							style="color: #007bff;">0</p>
+						<a th:href="@{/teacher/grades}" class="btn btn-sm"
+							style="color: #007bff; border-color: #007bff;">View Grades</a>
+					</div>
+				</div>
+
+				<!-- Quiz Card -->
+				<div class="col-md-4">
+					<div class="card p-3 text-center card-light-bg">
+						<h5 class="card-title" style="color: #28a745;">Quizzes</h5>
+						<p class="display-6" th:text="${quizCount}"
+							style="color: #28a745;">0</p>
+						<a th:href="@{/teacher/quizzes}" class="btn btn-sm"
+							style="color: #28a745; border-color: #28a745;">View Quizzes</a>
+					</div>
+				</div>
+				
+				<!-- Enrolled Students Card -->
+				<div class="col-md-4">
+					<div class="card p-3 text-center card-light-bg">
+						<h5 class="card-title text-info">Enrolled Students</h5>
+						<p class="display-6 fw-bold" th:text="${enrollmentCount}">0</p>
+						<a th:href="@{/teacher/enrollments}"
+							class="btn btn-sm btn-outline-info">View Enrollments</a>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title" style="color: #6f42c1;">Discussions</h5>
+                    <p class="display-6 fw-bold" style="color: #6f42c1;">💬</p>
+                    <a th:href="@{/dashboard/discussions}" class="btn btn-sm"
+                       style="color: #6f42c1; border-color: #6f42c1;">Manage Threads</a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title" style="color: #fd7e14;">Live Chat</h5>
+                    <p class="display-6 fw-bold" style="color: #fd7e14;">🗣️</p>
+                    <a th:href="@{/dashboard/chat}" class="btn btn-sm"
+                       style="color: #fd7e14; border-color: #fd7e14;">Go to Chat</a>
+                </div>
+            </div>
+
+				<!-- Profile Card -->
+            <div class="col-md-4">
+                <div class="card p-3 text-center card-light-bg">
+                    <h5 class="card-title text-secondary">Profile</h5>
+                    <p class="fw-bold" th:text="${teacherName}">Teacher</p>
+                    <a th:href="@{/teacher/profile}" class="btn btn-sm btn-outline-secondary">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    📧 <strong>Email:</strong> <span th:text="${teacherEmail}">admin@example.com</span>
+    &nbsp; | &nbsp;
+    ☎️ <strong>Phone:</strong> <span th:text="${teacherPhone}">1234567890</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Edusmart Signup </title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: url('/images/signup.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 60px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 350px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border: 1px solid #4CAF50;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #4CAF50;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+p.message {
+    color: green;
+    font-weight: bold;
+}
+
+p.error {
+    color: red;
+    font-weight: bold;
+}
+
+.links {
+    margin-top: 15px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Sign Up</h2>
+
+    <!-- Show messages dynamically -->
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+    <p class="message" th:if="${success}" th:text="${success}"></p>
+
+    <form th:action="@{/api/auth/register}" method="post">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <select name="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="ADMIN">Admin</option>
+            <option value="TEACHER">Teacher</option>
+            <option value="STUDENT">Student</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="links">
+        <a th:href="@{/users/login}">Already have an account? Login</a>
+    </div>
+</div>
+</body>
+</html>

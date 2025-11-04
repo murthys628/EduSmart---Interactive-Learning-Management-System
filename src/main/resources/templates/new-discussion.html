@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title> Edusmart | Start New Discussion </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/discussions.jpg') no-repeat center center fixed;
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #7b1fa2, #9c27b0, #ba68c8, #ce93d8, #e1bee7);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show { left: 0; }
+
+@media (min-width: 768px) {
+	.sidebar { left: 0; }
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+@media (min-width: 768px) {
+	.main-content { margin-left: 240px; }
+}
+
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #7b1fa2;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+	.sidebar-toggle { display: none; }
+}
+
+.card-thread {
+	background: rgba(255, 255, 255, 0.85);
+	border-radius: 12px;
+	padding: 20px;
+	margin-bottom: 15px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar Toggle -->
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2> 🎓 Student Menu </h2>
+    <a th:href="@{/student/dashboard}" class="text-white"> 🏠 Dashboard </a>
+    <a th:href="@{/student/courses}" class="text-white"> 📚 My Courses </a>
+    <a th:href="@{/student/grades}" class="text-white"> 📊 Grades </a>
+    <a th:href="@{/student/assignments}" class="text-white"> 📝 Assignments </a>
+    <a th:href="@{/student/quiz}" class="text-white"> 🧩 Quizzes </a>
+    <a th:href="@{/student/discussions}" class="text-white active"> 💬 Discussions </a> 
+    <a th:href="@{/student/profile}" class="text-white"> 👤 Profile </a>
+    
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light"> Logout </button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h1 class="mb-4 text-center text-dark"> ➕ Start New Discussion Thread </h1>
+
+        <div class="card-form">
+            <h4 class="mb-4 text-center">Thread Details</h4>
+            
+            <form th:action="@{/student/discussions/create}" th:object="${discussion}" method="post">
+                
+                <div class="mb-3">
+                    <label for="title" class="form-label">Discussion Title</label>
+                    <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Enter a descriptive title..." required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Main Post Content</label>
+                    <textarea th:field="*{description}" class="form-control" id="description" rows="6" placeholder="Start the conversation here..." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="courseId" class="form-label">Select Course</label>
+                    <select th:field="*{courseId}" class="form-control" id="courseId" required>
+                        <option value="">-- Select Course --</option>
+                        <option th:each="course : ${courses}" 
+                                th:value="${course.id}" 
+                                th:text="${course.title}">Example Course Title</option>
+                    </select>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">🚀 Create Thread</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center mt-4">
+            <a th:href="@{/student/discussions}" class="btn btn-outline-dark"> ⬅ Back to Discussions List </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

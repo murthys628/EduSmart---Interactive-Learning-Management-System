@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title th:text="${pageTitle} ?: 'EduSmart | Live Chat'"></title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/studentchats.jpg') no-repeat center center
+		fixed;
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f,
+		#f399bf);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show {
+	left: 0;
+}
+
+@media ( min-width : 768px) {
+	.sidebar {
+		left: 0;
+	}
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+.sidebar button {
+	width: 100%;
+	text-align: left;
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.85);
+}
+
+@media ( min-width : 768px) {
+	.main-content {
+		margin-left: 240px;
+	}
+}
+
+/* Sidebar toggle */
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #8b1e3f;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media ( min-width : 768px) {
+	.sidebar-toggle {
+		display: none;
+	}
+}
+
+/* Chat area */
+.messages-container {
+	height: 60vh;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+	border-radius: 12px;
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+.message-bubble {
+	max-width: 70%;
+	padding: 10px;
+	border-radius: 15px;
+	word-wrap: break-word;
+}
+
+.sent-message {
+	background-color: #8b1e3f;
+	color: #CCCCCC; /* 💡 CHANGED: Light Gray */
+	align-self: flex-end;
+	border-bottom-right-radius: 2px;
+}
+
+.received-message {
+	background-color: #f1f0f0;
+	color: black;
+	align-self: flex-start;
+	border-bottom-left-radius: 2px;
+}
+</style>
+</head>
+
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2>🎓 Student Menu</h2>
+    <a th:href="@{/student/dashboard}" class="text-white">🏠 Dashboard</a>
+    <a th:href="@{/student/courses}" class="text-white">📚 My Courses</a>
+    <a th:href="@{/student/grades}" class="text-white">📊 Grades</a>
+    <a th:href="@{/student/assignments}" class="text-white">📝 Assignments</a>
+    <a th:href="@{/dashboard/discussions}" class="text-white">💬 Discussions</a>
+    <a th:href="@{/dashboard/chat}" class="text-white active">🗣️ Live Chat</a>
+    <a th:href="@{/student/profile}" class="text-white">👤 Profile</a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">Logout</button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <a th:href="@{/student/courses}" class="btn btn-outline-secondary mb-3">&lt; Back to Courses</a>
+
+        <h1 class="mb-1" th:text="${pageTitle}">Live Course Chat</h1>
+        <p class="text-muted mb-4">You are chatting in the room for Course ID: 
+            <span th:text="${courseId}">101</span>
+        </p>
+
+        <div id="messagesArea" class="messages-container shadow mb-4">
+            <div th:if="${messages.isEmpty()}" class="alert alert-info text-center mt-3">
+                Start the conversation!
+            </div>
+
+            <div th:each="message : ${messages}" class="d-flex mb-3"
+                 th:classappend="${message.senderId == currentUserId} ? 'justify-content-end' : 'justify-content-start'">
+
+                <div class="message-bubble d-flex flex-column"
+                     th:classappend="${message.senderId == currentUserId} ? 'sent-message' : 'received-message'">
+
+                    <strong th:if="${message.senderId != currentUserId}" th:text="${message.senderName}">Sender</strong>
+                    <p class="mb-1" th:text="${message.content}">Message content...</p>
+                    <small class="text-end" th:text="${#temporals.format(message.timestamp, 'HH:mm')}"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="chatInput" class="form-control" placeholder="Type a message..." aria-label="Chat Input">
+            <button class="btn btn-success" type="button" id="sendButton">Send</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ Correct libraries (UMD version defines window.Stomp) -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<!-- Custom JS -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+    const courseId = /*[[${courseId}]]*/ 0;
+    const currentUserId = /*[[${currentUserId}]]*/ 0;
+
+    // ✅ Auto-detect your backend URL and use absolute path for SockJS
+    const backendPort = window.location.port || "8082";
+    const backendHost = window.location.hostname || "localhost";
+    const websocketUrl = "/ws";
+
+    let stompClient = null;
+    const topic = `/topic/course/${courseId}/chat`;
+
+    function displayMessage(message) {
+        const messagesArea = document.getElementById('messagesArea');
+        if (!messagesArea) return;
+
+        const isCurrentUser = message.senderId === currentUserId;
+        const timeString = new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const container = document.createElement('div');
+        container.className = `d-flex mb-3 ${isCurrentUser ? 'justify-content-end' : 'justify-content-start'}`;
+
+        const bubble = document.createElement('div');
+        bubble.className = `message-bubble d-flex flex-column ${isCurrentUser ? 'sent-message' : 'received-message'}`;
+
+        let html = '';
+        if (!isCurrentUser) html += `<strong>${message.senderName}:</strong>`;
+        html += `<p class="mb-1">${message.content}</p>`;
+        html += `<small class="text-end">${timeString}</small>`;
+
+        bubble.innerHTML = html;
+        container.appendChild(bubble);
+        messagesArea.appendChild(container);
+
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function connect() {
+        console.log("🔌 Connecting to WebSocket at:", websocketUrl);
+        const socket = new SockJS(websocketUrl);
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, onConnected, onError);
+    }
+
+    function onConnected() {
+        console.log("✅ Connected to WebSocket. Subscribing to:", topic);
+        stompClient.subscribe(topic, onMessageReceived);
+
+        const messagesArea = document.getElementById('messagesArea');
+        if (messagesArea) messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function onError(error) {
+        console.error("❌ WebSocket connection failed:", error);
+        const messagesArea = document.getElementById('messagesArea');
+        if (messagesArea) {
+            messagesArea.innerHTML = '<div class="alert alert-danger text-center mt-3">⚠️ Connection lost. Retrying...</div>';
+        }
+
+        // 🔁 Retry every 5 seconds
+        setTimeout(connect, 5000);
+    }
+
+    function onMessageReceived(payload) {
+        try {
+            const message = JSON.parse(payload.body);
+            displayMessage(message);
+        } catch (e) {
+            console.error("⚠️ Error parsing received payload:", e);
+        }
+    }
+
+    function sendMessage() {
+        if (!stompClient || !stompClient.connected) {
+            alert("WebSocket not connected yet. Please wait...");
+            return;
+        }
+
+        const chatInput = document.getElementById('chatInput');
+        const content = chatInput.value.trim();
+
+        if (content) {
+            const chatMessage = {
+                courseId: courseId,
+                content: content
+            };
+            stompClient.send("/app/chat/send", {}, JSON.stringify(chatMessage));
+            chatInput.value = '';
+        }
+    }
+
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+    document.getElementById('chatInput').addEventListener('keypress', e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    connect();
+/*]]>*/
+</script>
+
+</body>
+</html>

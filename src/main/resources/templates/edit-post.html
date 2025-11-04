@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Post | EduSmart</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+	min-height: 100vh;
+	background: url('/images/student_forum.jpg') no-repeat center center fixed;
+	background-size: cover;
+	font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+	min-width: 220px;
+	max-width: 220px;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: -220px;
+	background: linear-gradient(to right top, #8b1e3f, #aa3a5f, #c7587f, #e0779f, #f399bf);
+	color: white;
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s ease;
+	z-index: 1050;
+}
+
+.sidebar.show {
+	left: 0;
+}
+
+@media (min-width: 768px) {
+	.sidebar {
+		left: 0;
+	}
+}
+
+.sidebar h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
+.sidebar a, .sidebar button {
+	display: block;
+	padding: 12px 20px;
+	color: white;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	background: transparent;
+	border: none;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(5px);
+}
+
+.sidebar a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sidebar button {
+	width: 100%;
+	text-align: left;
+}
+
+/* Main content */
+.main-content {
+	margin-left: 0;
+	padding: 30px;
+	min-height: 100vh;
+	background: rgba(255, 255, 255, 0.85);
+}
+
+@media (min-width: 768px) {
+	.main-content {
+		margin-left: 240px;
+	}
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+	display: block;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1100;
+	background: #8b1e3f;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+	.sidebar-toggle {
+		display: none;
+	}
+}
+
+/* Card styling */
+.card-light-bg {
+	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+
+<body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">☰</button>
+
+<div class="sidebar d-flex flex-column">
+    <h2>🎓 Student Menu</h2>
+    <a th:href="@{/student/dashboard}" class="text-white">🏠 Dashboard</a>
+    <a th:href="@{/student/courses}" class="text-white">📚 My Courses</a>
+    <a th:href="@{/student/grades}" class="text-white">📊 Grades</a>
+    <a th:href="@{/student/assignments}" class="text-white">📝 Assignments</a>
+    <a th:href="@{/dashboard/discussions}" class="active text-white">💬 Discussions</a>
+    <a th:href="@{/student/profile}" class="text-white">👤 Profile</a>
+    <form th:action="@{/logout}" method="post" class="mt-auto">
+        <button type="submit" class="w-100 btn btn-outline-light">Logout</button>
+    </form>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <a th:href="@{/dashboard/discussions/{threadId}(threadId=${postEditDTO.threadId})}" class="btn btn-outline-secondary mb-3">
+            &lt; Back to Thread
+        </a>
+
+        <div class="card p-4 card-light-bg">
+            <h2 class="mb-4 text-center">✏️ Edit Your Post</h2>
+
+            <form th:action="@{/dashboard/discussions/posts/update}" th:object="${postEditDTO}" method="post">
+                
+                <!-- Hidden fields -->
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{threadId}" />
+
+                <!-- Content field -->
+                <div class="mb-3">
+                    <label for="content" class="form-label fw-bold">Content</label>
+                    <textarea th:field="*{content}" id="content" class="form-control" rows="5" required></textarea>
+                    <div th:if="${#fields.hasErrors('content')}" class="text-danger mt-1">
+                        <small th:errors="*{content}"></small>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a th:href="@{/dashboard/discussions/{threadId}(threadId=${postEditDTO.threadId})}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
