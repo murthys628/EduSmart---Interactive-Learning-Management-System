@@ -1,29 +1,39 @@
 📘 Overview
 
-EduSmart is an interactive web-based Learning Management System (LMS) designed to simplify online education.
+EduSmart is a Spring Boot-based Learning Management System (LMS) designed to make online learning interactive and efficient.
 
-It provides features for students, teachers, and administrators to manage courses, quizzes, and progress efficiently.
+It allows teachers to manage courses and quizzes, and students to learn, attempt quizzes, and track progress — all from a unified web platform.
 
 🚀 Features
 
-👨‍🏫 Teacher module for course and quiz creation
+👩‍🏫 Teacher Module – Create, edit, and manage courses and quizzes
 
-🎓 Student dashboard for course access and quiz participation
+🎓 Student Module – Enroll in courses, take quizzes, and view results
 
-🧾 Automatic quiz evaluation and result tracking
+🧮 Quiz Evaluation – Automatic grading and scoring system
 
-📅 Course scheduling and progress tracking
+🗂️ Course Management – Add course materials, track assignments, and deadlines
 
-🔐 Secure login system for all users (Admin, Teacher, Student)
+🔒 Authentication System – Role-based login (Admin, Teacher, Student)
+
+📊 Dashboard – Interactive statistics and reports for each user
+
+📅 Timestamps and Tracking – Record progress, quiz attempts, and completion dates
 
 🛠️ Technologies Used
+Category	    Technology
+Backend	      Spring Boot (Java)
+Frontend	    HTML, CSS, JavaScript, Thymeleaf
+Database	    MySQL
+Security	    Spring Security
+Build Tool	  Maven
+Server	      Apache Tomcat (Embedded)
+IDE	          Eclipse
 
-Backend: Java, Spring Boot / Servlets (depending on your setup)
+💡 Future Enhancements
 
-Frontend: HTML, CSS, JavaScript
+📱 Mobile-responsive design
 
-Database: MySQL
+📨 Email notifications for quiz results
 
-Server: Apache Tomcat
-
-IDE: Eclipse
+🧩 AI-based quiz recommendations
