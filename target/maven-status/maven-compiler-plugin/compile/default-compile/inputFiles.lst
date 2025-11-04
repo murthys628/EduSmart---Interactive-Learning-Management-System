@@ -1,136 +1,136 @@
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\UserService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\EduSmartApplication.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\EnrollmentController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\CourseRestController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\ChatMessage.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\PostEditDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\CourseResponse.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizAttemptMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\JacksonPrimaryConfig.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionPostDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\CustomUserDetailsService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizSubmissionMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizSubmissionController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\EmailNotificationConfiguration.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuestionController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Notification.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\RedisConfig.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\QuizRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\EnrollmentService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\DiscussionPostService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\NotificationService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\ThreadResponseDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\SecurityConfig.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\ChatWebSocketController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\ChatMessageMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\EnrollmentDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\QuizAnswer.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\ChatService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\QuestionService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\DiscussionThreadService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\User.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\ChatResponseDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\QuizSubmission.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAnswerDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\CourseService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\ChatHistoryController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\CourseDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\security\JwtProvider.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\EnrollmentMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\EnrollmentRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\CourseRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Enrollment.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\WebSocketConfig.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\config\WebSocketUserInterceptor.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionResponseDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\DiscussionThreadMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuestionDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAttemptController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\DiscussionThread.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\exception\UnauthorizedAccessException.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\LoginRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\CourseMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\RegisterRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAnswerController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\UserResponse.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\EmailNotificationService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationRestController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\ThreadCreationDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\ChatSendDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\filter\JwtRequestFilter.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\NotificationRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\AssignmentController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizApiController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\QuizSubmissionService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\util\JwtUtil.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuestionDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Quiz.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\QuizAttemptRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\QuizAnswerService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\JwtRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionRequestDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\NotificationMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\CourseRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\PostCreationDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\CustomUserDetails.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\TeacherDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizStatsDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\QuizService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentResponse.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionPostController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\DiscussionThreadRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\ChatDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizAnswerMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Course.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\QuestionRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\StudentDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\NotificationDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\CacheMonitorService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\QuizAnswerRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\JwtResponse.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\QuizAttempt.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\QuizSubmissionRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\DiscussionPost.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\StudentController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\enums\Role.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\ChatMessageDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\StudentProfileUpdateRequest.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\AssignmentRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\DiscussionPostRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\UserMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAttemptUIController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\AuthController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizAttemptDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionThreadDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionThreadController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\DiscussionThreadDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\exception\ResourceNotFoundException.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\AssignmentService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\QuestionMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\AuthService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Assignment.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\AdminController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionApiController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationSocketController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\CourseController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\HomeController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\PostResponseDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\QuizSubmissionDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\EnrollmentDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\UserRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\AdminDashboardController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\DiscussionPostMapper.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\UserDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\controller\TeacherController.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\repository\ChatMessageRepository.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\entity\Question.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\dto\QuizAnswerDTO.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\service\QuizAttemptService.java
-E:\Internship Projects\edusmart-management-system\src\main\java\com\edusmart\mapper\AssignmentMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionThreadController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\User.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\CourseResponse.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\UserMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\NotificationDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\DiscussionThreadMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\CacheMonitorService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\SecurityConfig.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\UserRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\NotificationRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\CustomUserDetails.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizStatsDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\ThreadResponseDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\QuizAnswer.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\NotificationMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationRestController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\UserDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\TeacherController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\StudentProfileUpdateRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\ChatResponseDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionThreadDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\DiscussionThreadRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\QuizAnswerService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\QuizAttemptService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\PostCreationDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\CourseRestController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\ChatWebSocketController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\EnrollmentController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\WebSocketConfig.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\DiscussionPostRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\RegisterRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\JwtResponse.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\exception\ResourceNotFoundException.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\AssignmentRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\ChatMessageDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Question.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuestionController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\AssignmentService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\ChatDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\CustomUserDetailsService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAttemptController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizSubmissionDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Quiz.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\AdminDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionApiController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\AuthController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionRequestDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionPostDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizSubmissionMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\QuestionRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\HomeController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\DiscussionThread.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\enums\Role.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\QuizSubmission.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\ChatMessage.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\ChatMessageMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionResponseDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\util\JwtUtil.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\ChatService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\EduSmartApplication.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\NotificationSocketController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\security\JwtProvider.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\TeacherDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\AdminController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\UserService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\QuestionService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\RedisConfig.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\ChatMessageRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\EnrollmentService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\ThreadCreationDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\QuizSubmissionRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\EnrollmentDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\AuthService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\QuizRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\EnrollmentDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAttemptUIController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Notification.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizAnswerMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\JacksonPrimaryConfig.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizAnswerDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\EnrollmentMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\CourseService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\EmailNotificationService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAnswerDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\EmailNotificationConfiguration.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizAnswerController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\StudentDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\JwtRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\ChatSendDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Course.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\DiscussionPost.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Assignment.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\CourseMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\AssignmentMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\NotificationService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\DiscussionPostMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuestionDashboardController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizApiController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\PostResponseDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\DiscussionPostService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\PostEditDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\LoginRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizSubmissionDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\config\WebSocketUserInterceptor.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\QuestionMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\QuizAttemptRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\CourseController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\ChatHistoryController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\DiscussionThreadDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\QuizSubmissionService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\CourseDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\QuizAttempt.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuestionDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\QuizAttemptDTO.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\mapper\QuizAttemptMapper.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\UserResponse.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\QuizSubmissionController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\filter\JwtRequestFilter.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\StudentController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\EnrollmentRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\DiscussionPostController.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\CourseRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\repository\QuizAnswerRepository.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\CourseRequest.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\QuizService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\entity\Enrollment.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\exception\UnauthorizedAccessException.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\dto\AssignmentResponse.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\service\DiscussionThreadService.java
+E:\Java_Imp\edusmart-management-system\src\main\java\com\edusmart\controller\AssignmentController.java
